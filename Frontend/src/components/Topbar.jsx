@@ -1,9 +1,7 @@
 import React from 'react'
 import Container from 'react-bootstrap/Container';
 import Navbar from 'react-bootstrap/Navbar';
-import { useContract } from '../Provider/ContractProvider';
 const Topbar = () => {
-    const contractInstance = useContract();
     return (
         <div>
             <Navbar bg="white" className='shadow-sm ' data-bs-theme="dark">
@@ -12,7 +10,7 @@ const Topbar = () => {
                     <Navbar.Toggle />
                     <Navbar.Collapse className="justify-content-end">
                         <Navbar.Text className='text-black'>
-                            Address:{contractInstance.userAddress}
+                            {/* Address:{contractInstance.userAddress} */}
                         </Navbar.Text>
                     </Navbar.Collapse>
                 </Container>

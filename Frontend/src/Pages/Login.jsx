@@ -6,17 +6,16 @@ import { useNavigate } from 'react-router-dom';
 import { useContract } from '../Provider/ContractProvider';
 
 const Login = () => {
-    const contractInstance = useContract();
-
+    const { connectToMetaMask } = useContract();
     const nav = useNavigate()
-    const [connection, setConnection] = useState(contractInstance.userAddress)
+    const [connection, setConnection] = useState()
     const [status, setStatus] = useState(false)
     const [show, setShow] = useState(false)
     const handleClose = () => setShow(false)
     const handleShow = () => setShow(true)
     const connectMetamask = async () => {
         setStatus(true)
-        contractInstance.connectToMetaMask().then(address => {
+        connectToMetaMask().then(address => {
             console.log(address)
             setStatus(false)
             setConnection(address)

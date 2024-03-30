@@ -14,19 +14,18 @@ export const ContractProvider = ({ children }) => {
         console.log("called eth")
         if (window.ethereum) {
             try {
-                await window.ethereum.request({ method: 'eth_requestAccounts' });
+                const acc = await window.ethereum.request({ method: 'eth_requestAccounts' });
                 console.log('Connected to MetaMask');
                 const provider = new ethers.providers.Web3Provider(window.ethereum);
                 const signer = provider.getSigner();
-                const address = await signer.getAddress();
-                setUserAddress(address);
-                // const contractAddress = '0x5FbDB2315678afecb367f032d93F642f64180aa3';
-                // const contract = new ethers.Contract(contractAddress, abi, signer);
-                // setContractInstance(contract);
-                return address
+                setUserAddress(acc[0]);
+                const contractAddress = '0x5FbDB2315678afecb367f032d93F642f64180aa3';
+                const contract = new ethers.Contract(contractAddress, abi.abi, signer); // Access the ABI array directly
+                setContractInstance(contract);
+                return acc[0]
             } catch (error) {
                 console.log(error)
-                console.error('User denied account access');
+                // console.error('User denied account access');
             }
         } else {
             console.log('Non-Ethereum browser detected. You should consider trying MetaMask!');

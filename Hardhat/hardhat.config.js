@@ -4,6 +4,6 @@ require("@nomicfoundation/hardhat-toolbox");
 module.exports = {
   solidity: "0.8.24",
   paths: {
-    artifacts: "../Frontend/src/artifacts", // Adjust the path to your frontend folder
+    artifacts: "../Frontend/src/artifacts",
   },
 };
