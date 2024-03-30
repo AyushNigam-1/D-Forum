@@ -1,66 +1,89 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.24;
 
-// Uncomment this line to use console.log
-// import "hardhat/console.sol";
-
-struct user{
+struct User {
     string uid;
     address userAdd;
 }
-struct msg {
+
+struct Message {
     string uid;
     string msg;
     string[] votes;
     bool status;
     string room;
-    string type ;
+    string visibility;
 }
-struct room {
-    string uid;
-    string name ;
-    string owner;
-    string[] subRoomsUid
-}
-struct subRoom {
+
+struct Room {
     string uid;
     string name;
-    string [] msgs ;
-    string [] owners ;
+    string owner;
+    string[] subRoomsUid;
 }
+
+struct SubRoom {
+    string uid;
+    string name;
+    string[] msgs;
+    string[] owners;
+}
+
 contract Lock {
- room[] allRooms;
- msg[] allMsgs;
-user[] allUsers;
- 
- function addUser(user memory usr) public  returns(bool){
-    allUsers.push(user(usr.uid , usr.add));
- }
- function addMsg(user memory mesg) public  returns(bool){
-    allUsers.push(user(mesg.uid , mesg.msg));
- }
- function addRoom(room memory rm) public  returns(bool){
-    allRooms.push(room(rm.uid , rm.name , rm.owner,new string[0]));
-    return true
- }
- function addSubRoom(room memory subRm) public  returns(bool){
-    allRooms.push(subRoom(subRm.uid , subRm.name , subRm.owner,new string[0]));
-    return true
- }
- function vote(string msgUid , string voterUid){
-for (uint i =0 ; i<allmsgs.lenght; i ++){
-    if(allmsgs[i].msgUid == msgUid ){
-        allmsgs[i].votes.push(voterUid)
-        break;
+    Room[] allRooms;
+    Message[] allMsgs;
+    User[] allUsers;
+    SubRoom[] subRooms;
+
+    function addUser(User calldata usr) public {
+        allUsers.push(User(usr.uid, usr.userAdd));
     }
-}
- }
- function updateStatus(bool sta ,string msgUid){
-    for (uint i =0 ; i<allmsgs.lenght; i ++){
-    if(allmsgs[i].msgUid == msgUid ){
-    allmsgs[i].status = sta;
-    break;
+
+    function addMsg(Message calldata mesg) public {
+        allMsgs.push(
+            Message(
+                mesg.uid,
+                mesg.msg,
+                new string[](0), // Initialize empty string array
+                false,
+                mesg.room,
+                mesg.visibility
+            )
+        );
     }
-}
- }
+
+    function addRoom(Room calldata rm) public {
+        allRooms.push(
+            Room(
+                rm.uid,
+                rm.name,
+                rm.owner,
+                new string[](0) // Initialize empty string array
+            )
+        );
+    }
+
+    function addSubRoom(SubRoom calldata subRm) public {
+        subRooms.push(
+            SubRoom(subRm.uid, subRm.name, new string[](0), new string[](0))
+        );
+    }
+
+    function vote(string calldata msgUid, string calldata voterUid) public {
+        for (uint i = 0; i < allMsgs.length; i++) {
+            if (keccak256(bytes(allMsgs[i].uid)) == keccak256(bytes(msgUid))) {
+                allMsgs[i].votes.push(voterUid);
+                break;
+            }
+        }
+    }
+
+    function updateStatus(bool sta, string calldata msgUid) public {
+        for (uint i = 0; i < allMsgs.length; i++) {
+            if (keccak256(bytes(allMsgs[i].uid)) == keccak256(bytes(msgUid))) {
+                allMsgs[i].status = sta;
+                break;
+            }
+        }
+    }
 }

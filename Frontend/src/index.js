@@ -3,15 +3,18 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { AnonAadhaarProvider } from "anon-aadhaar-react";
+import { BrowserRouter } from 'react-router-dom'
+import { ContractProvider } from './Provider/ContractProvider';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <AnonAadhaarProvider>
+  <BrowserRouter>
     <React.StrictMode>
-      <App />
+      <ContractProvider>
+        <App />
+      </ContractProvider>
     </React.StrictMode>
-  </AnonAadhaarProvider>
+  </BrowserRouter>
 );
 
 // If you want to start measuring performance in your app, pass a function
